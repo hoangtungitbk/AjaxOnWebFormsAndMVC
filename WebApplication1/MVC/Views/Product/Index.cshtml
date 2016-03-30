@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<div>
+    <h1>MVC using ViewBag</h1>
+    <ul>
+        @foreach (var product in ViewBag.Products)
+        {
+            <li>@product.Id . @product.Name ($@product.Price)</li>
+        }
+    </ul>
+</div>
+
+<div>
+    <h1>Ajax call MVC JSonResult Action</h1>
+    <ul id="products"></ul>
+</div>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $.ajax({
+        url: '/Product/GetAll',
+        contentType: 'application/json',
+        type: 'GET',
+        success: function (data) {
+            if (data !== undefined && data.length > 0) {
+                $.each(data, function (index, product) {                    
+                    var str = '<li>' + product.Id + '. ' + product.Name + ' ($' + product.Price + ')</li>';
+                    $('#products').append(str);
+                });
+            }
+        }
+    });
+</script>
